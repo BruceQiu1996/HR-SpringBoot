@@ -1,6 +1,7 @@
 package org.sang.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.sang.bean.Employee;
 import org.sang.bean.Salary;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface SalaryMapper {
     int deleteSalaryByEid(@Param("eid") Long eid);
 
     int addSidAndEid(@Param("sid") Integer sid, @Param("eid") Long eid);
+    
+    List<Employee> selSalaryByDep(@Param("depid") Integer depid);
 }

@@ -44,8 +44,19 @@ public class Employee {
     private Position position;
     private PoliticsStatus politicsStatus;
     private Salary salary;
+    private Integer salaryNum;
+    
+    
 
-    public Salary getSalary() {
+    public Integer getSalaryNum() {
+		return salaryNum;
+	}
+
+	public void setSalaryNum(Integer salaryNum) {
+		this.salaryNum = salaryNum;
+	}
+
+	public Salary getSalary() {
         return salary;
     }
 

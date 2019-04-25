@@ -1,9 +1,13 @@
 package org.sang.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.sang.bean.EmpSimpleDemo;
+import org.sang.bean.EmpTrain;
 import org.sang.bean.Employee;
+import org.sang.bean.EmplyeeEcs;
 import org.sang.bean.Nation;
 import org.sang.bean.PoliticsStatus;
+import org.sang.bean.TrainDetails;
 
 import java.util.Date;
 import java.util.List;
@@ -31,4 +35,24 @@ public interface EmpMapper {
     int addEmps(@Param("emps") List<Employee> emps);
 
     List<Employee> getEmployeeByPageShort(@Param("start") int start, @Param("size") Integer size);
+    
+    List<EmplyeeEcs> selAllEcs();
+    
+    List<EmpSimpleDemo> selAllEmplyeeBaseInfo();
+    
+    int addEmpEc(EmplyeeEcs emplyeeEcs);
+    
+    int deleEmpEcByID(@Param("empecID") Integer id);
+    
+    List<EmpTrain> selAllTrainsInfo();
+    
+    List<TrainDetails> selTrainDetailByID(@Param("id") Integer id);
+    
+    int InsertNewTrain(EmpTrain train);
+    
+    Integer getLastID();
+    
+    Integer InsertPrinciple(@Param("id")Integer id,@Param("num")Integer num,@Param("content") String Content);
+    
+    Integer InsertRelate(@Param("eid")Integer id,@Param("trainid")Integer trainid);
 }

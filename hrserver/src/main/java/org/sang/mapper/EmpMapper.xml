@@ -272,4 +272,55 @@
     <select id="getEmployeeByPageShort" resultMap="BaseResultMap">
 select e.*,d.`id` as did,d.`name` as dname,s.`id` as sid,s.`accumulationFundBase`,s.`accumulationFundPer`,s.`allSalary`,s.`basicSalary`,s.`bonus`,s.`createDate`,s.`lunchSalary`,s.`medicalBase`,s.`medicalPer`,s.`name` as sname,s.`pensionBase`,s.`pensionPer`,s.`trafficSalary` from employee e left join department d on e.`departmentId`=d.id left join empsalary es on es.`eid`=e.`id` left join salary s on s.`id`=es.`sid` ORDER BY e.id limit #{start},#{size}
     </select>
+    <!-- 查找所有的奖惩 -->
+    <resultMap id="BaseEcsResultMap" type="org.sang.bean.EmplyeeEcs">
+    	<id column="id" property="id"/>
+        <result column="eid" property="employeeId"/>
+        <result column="ecDate" property="recordtime"/>
+        <result column="ecReason" property="reason"/>
+        <result column="ecPoint" property="count"/>
+        <result column="ecType" property="type"/>
+		<result column="remark" property="remark"/>
+        <association property="employee" javaType="org.sang.bean.Employee">
+            <id property="id" column="eid"/>
+            <result property="name" column="ename"/>
+            <result property="email" column="email"/>
+            <result property="phone" column="ephone"/>
+        </association>
+        
+    </resultMap>
+    
+    <select id="selAllEcs" resultMap="BaseEcsResultMap">
+    	select ec.*,e.name as ename,e.id as eid ,e.email as email,e.phone as ephone from employeeec ec,employee e where ec.eid=e.id
+    </select>
+    <select id="selAllEmplyeeBaseInfo" resultType="org.sang.bean.Employee">
+    	select id,name from employee
+    </select>
+    <insert id="addEmpEc" parameterType="org.sang.bean.EmplyeeEcs">
+    	
+		INSERT INTO employeeec (id,eid,ecDate,ecReason,ecPoint,ecType,remark) VALUES(null,#{employeeId},#{recordtime},#{reason},#{count},#{type},#{remark})
+    </insert>
+    
+    <delete id="deleEmpEcByID" parameterType="java.lang.Integer">
+    	delete from employeeec where id=#{empecID}
+    </delete>
+    <select id="selAllTrainsInfo" resultType="org.sang.bean.EmpTrain">
+		 select e.id as eid,e.`name` ,dep.`name` as depname ,train.* from emptrainrelate relate ,employee e,employeetrain train,department dep where relate.trainid=train.id and relate.eid=e.id and dep.id=e.departmentId   
+    </select>
+    <select id="selTrainDetailByID" resultType="org.sang.bean.TrainDetails">
+    
+    	select * from emptraindetails where empTrainID=#{id}
+    </select>
+    <insert id="InsertNewTrain" parameterType="org.sang.bean.EmpTrain">
+    	INSERT into employeetrain VALUES (null,#{trainDate},#{trainendDate},#{trainContent},#{remark},1)
+    </insert>
+    <select id="getLastID" resultType="java.lang.Integer">
+    	SELECT LAST_INSERT_ID();
+    </select>
+    <insert id="InsertPrinciple">
+        insert into emptraindetails values(null,#{id},#{num},#{content})
+    </insert>
+    <insert id="InsertRelate">
+        insert into emptrainrelate values(#{eid},#{trainid})
+    </insert>
 </mapper>

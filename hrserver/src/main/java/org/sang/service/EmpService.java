@@ -1,18 +1,24 @@
 package org.sang.service;
 
+import org.sang.bean.EmpSimpleDemo;
+import org.sang.bean.EmpTrain;
 import org.sang.bean.Employee;
+import org.sang.bean.EmplyeeEcs;
 import org.sang.bean.Nation;
 import org.sang.bean.PoliticsStatus;
+import org.sang.bean.TrainDetails;
 import org.sang.mapper.EmpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sang on 2018/1/12.
@@ -101,5 +107,56 @@ public class EmpService {
     public List<Employee> getEmployeeByPageShort(Integer page, Integer size) {
         int start = (page - 1) * size;
         return empMapper.getEmployeeByPageShort(start,size);
+    }
+    public List<EmplyeeEcs> selAllEcs() {
+    	try {
+    		return empMapper.selAllEcs();
+    	}catch (Exception e) {
+    		
+			// TODO: handle exception
+    		System.out.println(e.toString());
+    		return null;
+		}
+	}
+    
+    public List<EmpSimpleDemo> selAddEmpceInfo(){
+    	return empMapper.selAllEmplyeeBaseInfo();
+    }
+    public int addEmpec(EmplyeeEcs emplyeeEcs) {
+    	return empMapper.addEmpEc(emplyeeEcs);
+    }
+    public int deleteEmpEc(Integer id) {
+    	return empMapper.deleEmpEcByID(id);
+    }
+    public List<EmpTrain> selAllTrainInfo(){
+    	return empMapper.selAllTrainsInfo();
+    }
+    public List<TrainDetails> selDetainsByID(Integer id){
+    	return empMapper.selTrainDetailByID(id);
+    }
+    @Transactional
+    public boolean addNewTrains(EmpTrain Train) {
+    	empMapper.InsertNewTrain(Train);
+    	String[] principles=Train.getSteps().split(";");
+    	if(principles.length==0||Train.getEmps().length==0) {
+    		try {
+				throw new Exception("data error");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}finally{
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			}
+    	}else {
+    		int insertID=empMapper.getLastID();
+    		for(int i=0;i<principles.length;i++) {
+    			empMapper.InsertPrinciple(insertID,i+1,principles[i]);
+    		}
+    		for(int i=0;i<Train.getEmps().length;i++) {
+    			empMapper.InsertRelate(Train.getEmps()[i],insertID);
+    		}
+    	}
+    	return true;
     }
 }

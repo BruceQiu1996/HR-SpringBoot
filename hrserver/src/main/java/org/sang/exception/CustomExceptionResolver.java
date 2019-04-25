@@ -18,6 +18,7 @@ import java.util.Map;
 public class CustomExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse response, Object o, Exception e) {
+    	System.out.println(e.toString());
         ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
         Map<String, Object> map = new HashMap<>();
         map.put("status", 500);

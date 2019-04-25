@@ -1,5 +1,6 @@
 package org.sang.service;
 
+import org.sang.bean.Employee;
 import org.sang.bean.Salary;
 import org.sang.mapper.SalaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,8 @@ public class SalaryService {
     public int updateEmpSalary(Integer sid, Long eid) {
         salaryMapper.deleteSalaryByEid(eid);
         return salaryMapper.addSidAndEid(sid,eid);
+    }
+    public List<Employee> selSalaryByDep(Integer id){
+    	return salaryMapper.selSalaryByDep(id);
     }
 }

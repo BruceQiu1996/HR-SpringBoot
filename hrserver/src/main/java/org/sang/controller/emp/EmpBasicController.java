@@ -1,8 +1,14 @@
 package org.sang.controller.emp;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.poi.ddf.EscherColorRef.SysIndexProcedure;
+import org.sang.bean.EmpSimpleDemo;
+import org.sang.bean.EmpTrain;
 import org.sang.bean.Employee;
+import org.sang.bean.EmplyeeEcs;
 import org.sang.bean.Position;
 import org.sang.bean.RespBean;
+import org.sang.bean.TrainDetails;
 import org.sang.common.EmailRunnable;
 import org.sang.common.poi.PoiUtils;
 import org.sang.service.DepartmentService;
@@ -126,4 +132,48 @@ public class EmpBasicController {
         }
         return RespBean.error("导入失败!");
     }
+    @RequestMapping(value = "/EmpEcs",method=RequestMethod.GET)
+    public List<EmplyeeEcs> SelAllEcs(){
+    	System.out.println("into");
+    	List<EmplyeeEcs> ecs=empService.selAllEcs();
+    	if(ecs==null) {
+    		return null;
+    	}
+    	return ecs;
+    }
+    @RequestMapping(value = "/AddEmpEc",method=RequestMethod.GET)
+    public List<EmpSimpleDemo> getEmpecInfo(){
+    	return empService.selAddEmpceInfo();
+    }
+    @RequestMapping(value = "/addempEc",method=RequestMethod.POST)
+    public RespBean addNewEmpEc(EmplyeeEcs emplyeeEcs) {
+    	if(empService.addEmpec(emplyeeEcs)==1) {
+             return RespBean.ok("添加成功!");
+    	}
+    	return RespBean.error("添加失败");
+    }
+    @RequestMapping(value = "/DeleteEmp/{id}",method=RequestMethod.DELETE)
+    public RespBean deleteEmpEc(@PathVariable int id) {
+    	if(empService.deleteEmpEc(id)==1) {
+            return RespBean.ok("删除成功!");
+   	}
+   	return RespBean.error("删除失败");
+    }
+    @RequestMapping(value = "/EmpTrains" ,method=RequestMethod.GET)
+    public List<EmpTrain> EmpTrains(){
+    	return empService.selAllTrainInfo();
+    }
+    @RequestMapping(value = "/transDetail/{id}" ,method=RequestMethod.GET)
+    public List<TrainDetails> getDetailsByID(@PathVariable Integer id){
+    	return empService.selDetainsByID(id);
+    }
+    @RequestMapping(value = "/addempTrain" ,method=RequestMethod.POST)
+    public RespBean addNewTrain(EmpTrain Train) {
+    	if(empService.addNewTrains(Train)) {
+            return RespBean.ok("添加成功!");
+   	}
+   	return RespBean.error("添加失败");
+    }
 }
+
+

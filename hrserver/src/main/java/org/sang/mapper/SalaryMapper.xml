@@ -75,4 +75,10 @@
     <insert id="addSidAndEid">
         INSERT INTO empsalary set eid=#{eid},sid=#{sid}
     </insert>
+    <select id="selSalaryByDep" resultType="org.sang.bean.Employee" parameterType="java.lang.Integer">
+      select * from employee where 1=1
+       <if test="depid != 0">
+             and departmentid=#{depid}
+       </if>
+    </select>
 </mapper>
