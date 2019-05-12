@@ -3,6 +3,8 @@ package org.sang.service;
 import org.sang.bean.Employee;
 import org.sang.bean.Salary;
 import org.sang.mapper.SalaryMapper;
+import org.sang.viewModels.UpSalaryByDepViewModel;
+import org.sang.viewModels.UpSalaryByEmpsViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +42,11 @@ public class SalaryService {
     }
     public List<Employee> selSalaryByDep(Integer id){
     	return salaryMapper.selSalaryByDep(id);
+    }
+    public int UpSalaryByDep(UpSalaryByDepViewModel viewModel) {
+    	return salaryMapper.updatesalaryByDep(viewModel);
+    }
+    public int UpSalaryByEmp(UpSalaryByEmpsViewModel viewModel) {
+    	return salaryMapper.updatesalaryByEmp(viewModel);
     }
 }

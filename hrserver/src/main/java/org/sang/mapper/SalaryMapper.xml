@@ -81,4 +81,34 @@
              and departmentid=#{depid}
        </if>
     </select>
+    <update id="updatesalaryByDep" parameterType="org.sang.viewModels.UpSalaryByDepViewModel">
+    	UPDATE employee set salaryNum=salaryNum+salaryNum*#{viewModel.uppoint}/100 WHERE departmentId=#{viewModel.depid}
+    	<if test="viewModel.values.length>0">
+    	and id not in(
+             <foreach collection="viewModel.values" item="item" index="index">
+             	<if test="index==viewModel.values.length-1">
+             		#{item}
+             	</if>
+             	<if test="index!=viewModel.values.length-1">
+             		#{item},
+             	</if>
+             </foreach>
+        )
+       </if>
+    </update>
+    <update id="updatesalaryByEmp" parameterType="org.sang.viewModels.UpSalaryByEmpsViewModel">
+    	UPDATE employee set salaryNum=salaryNum+salaryNum*#{viewModel.uppoint}/100 WHERE 1=1
+    	<if test="viewModel.values.length>0">
+    	and id in(
+             <foreach collection="viewModel.values" item="item" index="index">
+             	<if test="index==viewModel.values.length-1">
+             		#{item}
+             	</if>
+             	<if test="index!=viewModel.values.length-1">
+             		#{item},
+             	</if>
+             </foreach>
+        )
+       </if>
+    </update>
 </mapper>

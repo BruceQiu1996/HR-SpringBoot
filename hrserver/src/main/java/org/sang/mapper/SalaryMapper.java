@@ -3,6 +3,8 @@ package org.sang.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.sang.bean.Employee;
 import org.sang.bean.Salary;
+import org.sang.viewModels.UpSalaryByDepViewModel;
+import org.sang.viewModels.UpSalaryByEmpsViewModel;
 
 import java.util.List;
 
@@ -23,4 +25,7 @@ public interface SalaryMapper {
     int addSidAndEid(@Param("sid") Integer sid, @Param("eid") Long eid);
     
     List<Employee> selSalaryByDep(@Param("depid") Integer depid);
+    
+    int updatesalaryByDep(@Param("viewModel") UpSalaryByDepViewModel viewModel);
+    int updatesalaryByEmp(@Param("viewModel") UpSalaryByEmpsViewModel viewModel);
 }

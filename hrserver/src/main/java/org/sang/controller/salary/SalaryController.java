@@ -4,12 +4,15 @@ import org.sang.bean.RespBean;
 import org.sang.bean.Salary;
 import org.sang.service.EmpService;
 import org.sang.service.SalaryService;
+import org.sang.viewModels.UpSalaryByDepViewModel;
+import org.sang.viewModels.UpSalaryByEmpsViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Console;
 import java.util.List;
 
 /**
@@ -50,6 +53,20 @@ public class SalaryController {
             return RespBean.ok("删除成功!");
         }
         return RespBean.error("删除失败!");
+    }
+    @RequestMapping(value = "/salary/up",method=RequestMethod.POST)
+    public RespBean upSalary(UpSalaryByDepViewModel viewModel) {
+    	if(salaryService.UpSalaryByDep(viewModel)>0) {
+    		return RespBean.ok("调薪成功!");
+    	}
+    	return RespBean.ok("调薪失败");
+    }
+    @RequestMapping(value = "/salary/empup",method=RequestMethod.POST)
+    public RespBean upSalaryByEmp(UpSalaryByEmpsViewModel viewModel) {
+    	if(salaryService.UpSalaryByEmp(viewModel)>0) {
+    		return RespBean.ok("调薪成功!");
+    	}
+    	return RespBean.ok("调薪失败");
     }
 
 }
